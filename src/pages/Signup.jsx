@@ -2,7 +2,7 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
-import axios from "axios"
+import axiosInstance from "../api/axiosInstance"
 import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 
@@ -11,8 +11,6 @@ function Signup({theme}) {
   const [displayName, setDisplayName] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
 
   const navigate = useNavigate()
 
@@ -24,7 +22,7 @@ function Signup({theme}) {
       password,
       confirmPassword
     }
-    const signupResponse = await axios.post(`${API_BASE_URL}/api/signup`, newUser)
+    const signupResponse = await axiosInstance.post('/api/signup', newUser)
     console.log(signupResponse.data)
     if(signupResponse.status === 201)
       navigate('/')

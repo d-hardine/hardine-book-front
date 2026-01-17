@@ -7,22 +7,20 @@ import Signup from './pages/Signup'
 import Home from './pages/Home'
 import ProtectedRoutes from './components/ProtectedRoutes'
 import { useState, useEffect } from 'react'
-import axios from "axios"
+import axiosInstance from './api/axiosInstance'
 import Profile from './pages/Profile'
 
 function App() {
-
-  //Backend URL
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
 
   //user setup
   const [user, setUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
 
+  //check authentication if user already logged in
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/api/auth`, { withCredentials: true })
+        const response = await axiosInstance.get('/api/auth')
         if(response.status === 201) {
           setUser(response.data)
         }
@@ -77,7 +75,7 @@ function App() {
           <Route path='/' element={<Login theme={theme} setUser={setUser} />}/>
           <Route path='/signup' element={<Signup theme={theme} user={user} />}/>
           <Route element={<ProtectedRoutes user={user} isLoading={isLoading} />}>
-            <Route path='/home' element={<Home user={user} />}/>
+            <Route path='/home' element={<Home setUser={setUser} setIsLoading={setIsLoading} />}/>
             <Route path='/profile' element={<Profile user={user} />}/>
           </Route>
           <Route path='*' element={<Navigate to="/" />} />

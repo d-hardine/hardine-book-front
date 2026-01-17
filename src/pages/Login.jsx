@@ -3,7 +3,7 @@ import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Image from 'react-bootstrap/Image'
-import axios from "axios"
+import axiosInstance from "../api/axiosInstance"
 import { Link, useNavigate } from "react-router-dom"
 import logo from '../assets/information-svgrepo-com.svg'
 import { useState } from "react"
@@ -11,10 +11,6 @@ import { useState } from "react"
 function Login({theme, setUser}) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
-
-  axios.defaults.withCredentials = true;
 
   const navigate = useNavigate()
 
@@ -24,7 +20,7 @@ function Login({theme, setUser}) {
       username,
       password,
     }
-    const loginResponse = await axios.post(`${API_BASE_URL}/api/login`, loginUser, { withCredentials: true })
+    const loginResponse = await axiosInstance.post('/api/login', loginUser)
     if(loginResponse.status === 201)
       setUser(loginResponse.data)
       navigate('/home')
