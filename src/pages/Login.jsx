@@ -3,12 +3,12 @@ import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Image from 'react-bootstrap/Image'
-import axiosInstance from "../api/axiosInstance"
-import { Link, useNavigate } from "react-router-dom"
+import axiosInstance from "../config/axiosInstance"
+import { Link, Navigate, useNavigate } from "react-router-dom"
 import logo from '../assets/information-svgrepo-com.svg'
 import { useState } from "react"
 
-function Login({theme, setUser}) {
+function Login({theme, user, setUser}) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -25,6 +25,8 @@ function Login({theme, setUser}) {
       setUser(loginResponse.data)
       navigate('/home')
   }
+  
+  if(user) { return(<Navigate to="/home"/>) }
 
   return (
     <Row className="align-items-center justify-content-center" style={{height: '100vh'}}>
@@ -50,6 +52,7 @@ function Login({theme, setUser}) {
         </Form>
         <div className="text-muted">Don't have an account? <Link to="/signup" className={theme === 'dark' ? 'link-light' : 'link-dark'}><b>Sign up</b></Link></div>
       </Col>
+      <Link to={'/home'}>test home page</Link>
       <Link to={'/profile'}>test profile page</Link>
     </Row>
   );

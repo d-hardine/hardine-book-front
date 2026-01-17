@@ -7,7 +7,7 @@ import Signup from './pages/Signup'
 import Home from './pages/Home'
 import ProtectedRoutes from './components/ProtectedRoutes'
 import { useState, useEffect } from 'react'
-import axiosInstance from './api/axiosInstance'
+import axiosInstance from './config/axiosInstance'
 import Profile from './pages/Profile'
 
 function App() {
@@ -72,10 +72,10 @@ function App() {
     <>
       <Container>
         <Routes>
-          <Route path='/' element={<Login theme={theme} setUser={setUser} />}/>
+          <Route path='/' element={<Login theme={theme} user={user} setUser={setUser} />}/>
           <Route path='/signup' element={<Signup theme={theme} user={user} />}/>
-          <Route element={<ProtectedRoutes user={user} isLoading={isLoading} />}>
-            <Route path='/home' element={<Home setUser={setUser} setIsLoading={setIsLoading} />}/>
+          <Route element={<ProtectedRoutes user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading} />}>
+            <Route path='/home' element={<Home setUser={setUser} />}/>
             <Route path='/profile' element={<Profile user={user} />}/>
           </Route>
           <Route path='*' element={<Navigate to="/" />} />

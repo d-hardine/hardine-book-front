@@ -2,11 +2,11 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
-import axiosInstance from "../api/axiosInstance"
-import { Link, useNavigate } from "react-router-dom"
+import axiosInstance from "../config/axiosInstance"
+import { Link, useNavigate, Navigate } from "react-router-dom"
 import { useState } from "react"
 
-function Signup({theme}) {
+function Signup({theme, user}) {
   const [username, setUsername] = useState('')
   const [displayName, setDisplayName] = useState('')
   const [password, setPassword] = useState('')
@@ -27,6 +27,8 @@ function Signup({theme}) {
     if(signupResponse.status === 201)
       navigate('/')
   }
+
+  if(user) { return(<Navigate to="/home"/>) }
 
   return (
     <Row className="align-items-center justify-content-center" style={{height: '100vh'}}>
