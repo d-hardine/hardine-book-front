@@ -9,6 +9,8 @@ import ProtectedRoutes from './components/ProtectedRoutes'
 import { useState, useEffect } from 'react'
 import axiosInstance from './config/axiosInstance'
 import Profile from './pages/Profile'
+import UserContext from './config/UserContext'
+import ThemeContext from './config/ThemeContext'
 
 function App() {
 
@@ -33,7 +35,7 @@ function App() {
     checkAuth()
   }, [])
 
-  // Function to detect  theme OS preference
+  // Function to detect theme OS preference
   const getSystemPreference = () => {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       return 'dark';
@@ -70,17 +72,21 @@ function App() {
   
   return (
     <>
-      <Container>
-        <Routes>
-          <Route path='/' element={<Login theme={theme} user={user} setUser={setUser} />}/>
-          <Route path='/signup' element={<Signup theme={theme} user={user} />}/>
-          <Route element={<ProtectedRoutes user={user} setUser={setUser} isLoading={isLoading} setIsLoading={setIsLoading} />}>
-            <Route path='/home' element={<Home setUser={setUser} />}/>
-            <Route path='/profile' element={<Profile user={user} />}/>
-          </Route>
-          <Route path='*' element={<Navigate to="/" />} />
-        </Routes>
-      </Container>
+      <ThemeContext.Provider value={{theme, setTheme}}>
+      <UserContext.Provider value={{user, setUser}}>
+        <Container>
+          <Routes>
+            <Route path='/' element={<Login />}/>
+            <Route path='/signup' element={<Signup />}/>
+            <Route element={<ProtectedRoutes isLoading={isLoading} setIsLoading={setIsLoading} />}>
+              <Route path='/home' element={<Home />}/>
+              <Route path='/profile' element={<Profile />}/>
+            </Route>
+            <Route path='*' element={<Navigate to="/" />} />
+          </Routes>
+        </Container>
+      </UserContext.Provider>
+      </ThemeContext.Provider>
     </>
   )
 }

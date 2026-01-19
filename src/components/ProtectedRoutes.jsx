@@ -1,12 +1,15 @@
-import { Outlet, useLocation, Navigate, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
-import axiosInstance from "../config/axiosInstance";
-import logoutFunction from "../config/logoutFunction";
+import { Outlet, useLocation, Navigate, useNavigate } from "react-router-dom"
+import { useEffect, useContext } from "react"
+import axiosInstance from "../config/axiosInstance"
+import logoutFunction from "../config/logoutFunction"
+import UserContext from "../config/UserContext"
 
-function ProtectedRoutes({user, setUser, isLoading, setIsLoading}) {
+function ProtectedRoutes({ isLoading, setIsLoading}) {
 
     const location = useLocation()
     const navigate = useNavigate() //THIS IS ESSENTIAL FOR LOGOUT FUNCTION
+
+    const { user, setUser } = useContext(UserContext)
 
     useEffect(() => {
         const checkAuth = async () => {

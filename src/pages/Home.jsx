@@ -1,8 +1,12 @@
 import { Link, useNavigate } from "react-router-dom"
 import Button from "react-bootstrap/Button"
 import logoutFunction from "../config/logoutFunction"
+import UserContext from "../config/UserContext"
+import { useContext } from "react"
 
-function Home({setUser}) {
+function Home() {
+
+    const { user, setUser } = useContext(UserContext)
 
     const navigate = useNavigate() //THIS IS ESSENTIAL FOR LOGOUT FUNCTION
 

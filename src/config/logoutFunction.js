@@ -5,7 +5,6 @@ const logoutFunction = async (setUser, navigate) => {
         const logoutResponse = await axiosInstance.post('/api/logout')
         if(logoutResponse.status === 200) {
             setUser(null)
-            sessionStorage.clear()
             navigate('/')
         }
     } catch (err) {

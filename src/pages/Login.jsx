@@ -6,13 +6,18 @@ import Image from 'react-bootstrap/Image'
 import axiosInstance from "../config/axiosInstance"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import logo from '../assets/information-svgrepo-com.svg'
-import { useState } from "react"
+import { useState, useContext } from "react"
+import UserContext from "../config/UserContext"
+import ThemeContext from "../config/ThemeContext"
 
-function Login({theme, user, setUser}) {
+function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const navigate = useNavigate()
+
+  const { user, setUser } = useContext(UserContext)
+  const { theme, setTheme } = useContext(ThemeContext)
 
   const handleLogin = async (e) => {
     e.preventDefault()
