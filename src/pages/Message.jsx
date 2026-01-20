@@ -6,7 +6,7 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Sidebar from "../components/Sidebar"
 
-function Profile() {
+function Message() {
 
   const { user, setUser } = useContext(UserContext)
 
@@ -19,7 +19,7 @@ function Profile() {
             <Sidebar />
           </Col>
           <Col className="col-9">
-            <p>Your profile here. Hello {user.name}</p>
+            <p>Your message here. Hello {user.name}</p>
           </Col>
         </Row>
       </Container>
@@ -27,4 +27,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default Message

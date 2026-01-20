@@ -1,8 +1,10 @@
-import { Link } from "react-router-dom"
 import UserContext from "../config/UserContext"
 import { useContext } from "react"
 import Container from "react-bootstrap/Container"
 import NavigationBar from "../components/NavigationBar"
+import Row from "react-bootstrap/Row"
+import Col from "react-bootstrap/Col"
+import Sidebar from "../components/Sidebar"
 
 function Home() {
 
@@ -12,8 +14,17 @@ function Home() {
     <>
       <NavigationBar />
       <Container>
-        <div>You're logged in</div>
-        <Link to="/profile">go to profile page</Link>
+        <Row className="pt-4">
+          <Col className="col-3">
+            <Sidebar />
+          </Col>
+          <Col className="col-6">
+            Status Update
+          </Col>
+          <Col className="col-3">
+            Card Stuff
+          </Col>
+        </Row>
       </Container>
     </>
   )

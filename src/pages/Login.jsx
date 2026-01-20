@@ -59,8 +59,6 @@ function Login() {
           </Form>
           <div className="text-muted">Don't have an account? <Link to="/signup" className={theme === 'dark' ? 'link-light' : 'link-dark'}><b>Sign up</b></Link></div>
         </Col>
-        <Link to={'/home'}>test home page</Link>
-        <Link to={'/profile'}>test profile page</Link>
       </Row>
     </Container>
   );

@@ -1,6 +1,5 @@
 import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import Container from 'react-bootstrap/Container'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
@@ -11,6 +10,8 @@ import axiosInstance from './config/axiosInstance'
 import Profile from './pages/Profile'
 import UserContext from './config/UserContext'
 import ThemeContext from './config/ThemeContext'
+import Message from './pages/Message'
+import Post from './pages/Post'
 
 function App() {
 
@@ -64,11 +65,6 @@ function App() {
     // Cleanup the event listener on component unmount
     return () => mediaQuery.removeEventListener('change', handleSystemChange);
   }, [theme]); // Re-run if theme changes
-
-  // Optional: Function to allow the user to manually toggle the theme
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
-  };
   
   return (
     <>
@@ -80,6 +76,8 @@ function App() {
             <Route element={<ProtectedRoutes isLoading={isLoading} setIsLoading={setIsLoading} />}>
               <Route path='/home' element={<Home />}/>
               <Route path='/profile' element={<Profile />}/>
+              <Route path='/message' element={<Message />}/>
+              <Route path='/post' element={<Post />}/>
             </Route>
             <Route path='*' element={<Navigate to="/" />} />
           </Routes>
