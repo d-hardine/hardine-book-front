@@ -1,4 +1,4 @@
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import ThemeContext from "../config/ThemeContext"
 import NavigationBar from "../components/NavigationBar"
 import Container from "react-bootstrap/Container"
@@ -7,10 +7,25 @@ import Col from "react-bootstrap/Col"
 import Sidebar from "../components/Sidebar"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
+import axiosInstance from "../config/axiosInstance"
+import { useNavigate } from "react-router-dom"
 
 function Post() {
 
-  const { theme, setTheme } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
+
+  const [post, setPost] = useState('')
+
+  const navigate = useNavigate()
+
+  const handlePost = async (e) => {
+    e.preventDefault()
+    console.log(post)
+    const postResponse = await axiosInstance.post('/api/post', {post})
+    if(postResponse.status === 201)
+      console.log(postResponse.data)
+      navigate('/home')
+  }
 
   return (
     <>
@@ -21,12 +36,11 @@ function Post() {
             <Sidebar />
           </Col>
           <Col className="col-9">
-            <Form>
-              <Form.Group className="mb-3" controlId="formBasicUsername">
-                <Form.Label>Username</Form.Label>
-                <Form.Control type="text" placeholder="Enter username" onChange={(e) => setUsername(e.target.value)} required />
+            <Form onSubmit={handlePost}>
+              <Form.Group className="mb-3" controlId="createPost">
+                <Form.Control style={{ resize: "none" }} as="textarea" rows={4} placeholder="What's on your mind?" onChange={(e) => setPost(e.target.value)} required />
               </Form.Group>
-            <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Signup</Button>
+            <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Post</Button>
             </Form>
           </Col>
         </Row>

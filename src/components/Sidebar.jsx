@@ -20,20 +20,20 @@ const Sidebar = () => {
     return(
             <ListGroup variant="flush">
                 <CustomLinkBootStrap to="/home" action>
-                    <Image className="m-1" src={theme === 'dark' ? homeIconWhite : homeIconBlack} width={'25px'}/>
-                    Home
+                    <Image className="m-1" src={theme === 'dark' ? homeIconWhite : homeIconBlack} width={'25px'} title="home"/>
+                    <div className="d-none d-lg-block">Home</div>
                 </CustomLinkBootStrap>
                 <CustomLinkBootStrap to="/profile" action>
-                    <Image className="m-1" src={theme === 'dark' ? profileIconWhite : profileIconBlack} width={'25px'}/>
-                    Profile
+                    <Image className="m-1" src={theme === 'dark' ? profileIconWhite : profileIconBlack} width={'25px'} title="profile"/>
+                    <div className="d-none d-lg-block">Profile</div>
                 </CustomLinkBootStrap>
                 <CustomLinkBootStrap to="/message" action>
-                    <Image className="m-1" src={theme === 'dark' ? emailIconWhite : emailIconBlack} width={'25px'}/>
-                    Message
+                    <Image className="m-1" src={theme === 'dark' ? emailIconWhite : emailIconBlack} width={'25px'} title="message"/>
+                    <div className="d-none d-lg-block">Message</div>
                 </CustomLinkBootStrap>
                 <CustomLinkBootStrap to="/post" action>
-                    <Image className="m-1" src={theme === 'dark' ? postIconWhite : postIconBlack} width={'25px'}/>
-                    Post
+                    <Image className="m-1" src={theme === 'dark' ? postIconWhite : postIconBlack} width={'25px'} title="post"/>
+                    <div className="d-none d-lg-block">Post</div>
                 </CustomLinkBootStrap>
             </ListGroup>
     )
@@ -44,7 +44,7 @@ function CustomLinkBootStrap({to, type, children, ...props}) {
     const resolvedPath = useResolvedPath(to) //retrieve absolute path of the page
     const isActive = useMatch({path: resolvedPath.pathname, end: true}) //end TRUE to make sure to match the absolute path, not relative
     return (
-        <ListGroup.Item className={isActive ? "active" : ""} as={Link} to={to} {...props}>
+        <ListGroup.Item className={[isActive ? "active" : "", "d-flex", "align-items-center", "gap-1"].join(" ")} as={Link} to={to} {...props}>
             {children}
         </ListGroup.Item>
     )

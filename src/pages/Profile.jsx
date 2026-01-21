@@ -5,6 +5,8 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Sidebar from "../components/Sidebar"
+import Image from "react-bootstrap/Image"
+import profilePicturePlaceholder from '../assets/placeholder-image.png'
 
 function Profile() {
 
@@ -19,7 +21,9 @@ function Profile() {
             <Sidebar />
           </Col>
           <Col className="col-9">
-            <p>Your profile here. Hello {user.name}</p>
+            <Image src={profilePicturePlaceholder} width='220px' thumbnail />
+            <div>@{user.username}</div>
+            <div className="text-muted">{user.name}</div>
           </Col>
         </Row>
       </Container>

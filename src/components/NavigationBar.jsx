@@ -1,14 +1,14 @@
 import Nav from "react-bootstrap/Nav"
 import Navbar from "react-bootstrap/Navbar"
+import Form from "react-bootstrap/Form"
 import NavDropdown from 'react-bootstrap/NavDropdown'
-import { Link } from "react-router-dom"
 import Container from "react-bootstrap/Container"
+import { Link, useNavigate } from "react-router-dom"
 import { useContext } from "react"
 import UserContext from "../config/UserContext"
 import ThemeContext from "../config/ThemeContext"
-import './NavigationBar.css'
-import { useNavigate } from "react-router-dom"
 import logoutFunction from "../config/logoutFunction"
+import './NavigationBar.css'
 
 function NavigationBar() {
 
@@ -29,9 +29,12 @@ function NavigationBar() {
         <Navbar.Toggle aria-controls="account-navbar-nav" />
         <Navbar.Collapse id="account-navbar-nav">
           <Nav className="ms-auto">  {/* Use ms-auto to push items to the end */}
-            <NavDropdown title={user.name} className="text-white" id="account-nav-dropdown">
-              <NavDropdown.Item as={Link} to="/profile">Profile</NavDropdown.Item>
-              <NavDropdown.Item onClick={toggleTheme} to="/">Toggle Theme</NavDropdown.Item>
+            <NavDropdown title={user.name} id="account-nav-dropdown">
+              <NavDropdown.Item as={'div'}>
+                <Form>
+                  <Form.Check type="switch" onChange={toggleTheme} id='dark-mode-switch' label='Dark Mode' checked={theme === 'dark' ? true : false} />
+                </Form>
+              </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={() => logoutFunction(setUser,navigate)}>LOG OUT</NavDropdown.Item>
             </NavDropdown>
