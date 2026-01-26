@@ -1,16 +1,20 @@
 import axiosInstance from "../config/axiosInstance"
 import UserContext from "../config/UserContext"
 import { useContext, useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import Container from "react-bootstrap/Container"
 import NavigationBar from "../components/NavigationBar"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Sidebar from "../components/Sidebar"
+import Image from "react-bootstrap/Image"
 import { formatDistanceToNow } from "date-fns"
 
 function Home() {
 
   const { user, setUser } = useContext(UserContext)
+
+  const navigate = useNavigate()
 
   const [allPosts, setAllPosts] = useState()
   const [isLoading, setIsLoading] = useState(true)
@@ -18,7 +22,7 @@ function Home() {
   useEffect(() => {
     const retrieveAllPosts = async () => {
       try {
-        const retrieveResponse =  await axiosInstance('/api/all-posts')
+        const retrieveResponse =  await axiosInstance.get('/api/all-posts')
         if(retrieveResponse.status === 200) {
           setAllPosts(retrieveResponse.data.allPosts)
         }
@@ -44,12 +48,13 @@ function Home() {
           ( 
             <Col className="col-7">
               {allPosts.map((post) => (
-                <Row className="pb-3" key={post.id}>
-                  <div>@{post.author.username}</div>
-                  <div className="text-muted">@{post.author.name}</div>
-                  <div>{post.content}</div>
-                  <div>{formatDistanceToNow(post.createdAt, {addSuffix: true})}</div>
-                </Row>
+                <div className="post-container d-flex p-3 gap-3 h-50 border" role="button" onClick={() => navigate(`/status/${post.id}`)} key={post.id}>
+                  <Image src={post.author.profilePic} className="object-fit-cover mt-1" width='35px' height='35px' roundedCircle/>
+                  <div className="post-content">
+                    <div><b>{post.author.name}</b> <span className="text-muted">@{post.author.username}</span> · <span className="text-muted">{formatDistanceToNow(post.createdAt, {addSuffix: true})}</span></div>
+                    <div>{post.content}</div>
+                  </div>
+                </div>
               ))}
             </Col>
           )}

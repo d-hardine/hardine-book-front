@@ -20,10 +20,8 @@ function Post() {
 
   const handlePost = async (e) => {
     e.preventDefault()
-    console.log(post)
-    const postResponse = await axiosInstance.post('/api/post', {post})
+    const postResponse = await axiosInstance.post('/api/create-post', {post})
     if(postResponse.status === 201)
-      console.log(postResponse.data)
       navigate('/home')
   }
 
@@ -40,7 +38,7 @@ function Post() {
               <Form.Group className="mb-3" controlId="createPost">
                 <Form.Control style={{ resize: "none" }} as="textarea" rows={4} placeholder="What's on your mind?" onChange={(e) => setPost(e.target.value)} required />
               </Form.Group>
-            <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Post</Button>
+              <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Post</Button>
             </Form>
           </Col>
         </Row>

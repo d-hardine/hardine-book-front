@@ -12,6 +12,7 @@ import UserContext from './config/UserContext'
 import ThemeContext from './config/ThemeContext'
 import Message from './pages/Message'
 import Post from './pages/Post'
+import Status from './pages/Status'
 
 function App() {
 
@@ -78,6 +79,7 @@ function App() {
               <Route path='/profile' element={<Profile />}/>
               <Route path='/message' element={<Message />}/>
               <Route path='/post' element={<Post />}/>
+              <Route path='/status/:statusId' element={<Status />}/>
             </Route>
             <Route path='*' element={<Navigate to="/" />} />
           </Routes>
