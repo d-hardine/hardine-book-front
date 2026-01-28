@@ -1,12 +1,12 @@
 import './StatusCard.css'
 import Image from "react-bootstrap/Image"
-import { formatDistanceToNow } from "date-fns"
+import { format, formatDistanceToNow } from "date-fns"
 import commentIconWhite from '../assets/comment-icon-white.svg'
 import commentIconBlack from '../assets/comment-icon-black.svg'
 import likeIconWhite from '../assets/like-icon-white.svg'
 import likeIconBlack from '../assets/like-icon-black.svg'
 import likeIconRed from '../assets/like-icon-red.svg'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { useContext, useEffect, useState } from 'react'
 import UserContext from '../config/UserContext'
 import ThemeContext from "../config/ThemeContext"
@@ -28,7 +28,7 @@ function StatusCard({post}) {
       const retrieveLikeResponse =  await axiosInstance.get(`/api/like/${post.id}`)
       if(retrieveLikeResponse.status === 200) {
         setTotalLikes(retrieveLikeResponse.data.retrievedLike.length)
-        const findIsLiked = retrieveLikeResponse.data.retrievedLike.some(i => i.authorId === user.id) //find if user clicked like to the status/post
+        const findIsLiked = retrieveLikeResponse.data.retrievedLike.some(liked => liked.authorId === user.id) //find if user clicked like to the status/post
         setIsLiked(findIsLiked)
       }
     } catch(err) {
@@ -40,10 +40,10 @@ function StatusCard({post}) {
 
   useEffect(() => {
     retrieveLike()
-  }, [])
+  })
 
   const handleLike = async (e) => {
-    e.stopPropagation(); // Prevents the click from reaching the parent
+    e.stopPropagation() // Prevents the click from reaching the parent
     try {
       let likeResponse
       if(!isLiked) {
@@ -59,12 +59,21 @@ function StatusCard({post}) {
     }
   }
 
+  const stopPropagation = (e) => {
+    e.stopPropagation() // Prevents the click from reaching the parent
+  }
+
   return (
     <div className="status-card d-flex p-3 gap-3 border" onClick={() => navigate(`/status/${post.id}`)} role='button'>
       <Image src={post.author.profilePic} className="object-fit-cover mt-1" width='35px' height='35px' roundedCircle />
       <div className="post-content d-flex flex-column justify-content-between gap-3">
         <div className="post-content-body">
-          <div><b>{post.author.name}</b> <span className="text-muted">@{post.author.username}</span> · <span className="text-muted">{formatDistanceToNow(post.createdAt, {addSuffix: true})}</span></div>
+          <div>
+            <Link className={['text-decoration-none', theme === 'dark' ? 'text-light' : 'text-dark'].join(" ")} onClick={stopPropagation} to={`/account/${post.author.id}`}>
+              <span className='fw-bold hover-text-underline'>{post.author.name}</span>
+              <span className="text-muted"> @{post.author.username} </span>
+            </Link>
+             · <span title={format(post.createdAt, 'yyyy-MM-dd h:mm a')} className="text-muted">{formatDistanceToNow(post.createdAt, {addSuffix: true})}</span></div>
           <div>{post.content}</div>
         </div>
         {isLikeLoading ?

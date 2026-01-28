@@ -8,7 +8,7 @@ import Sidebar from "../components/Sidebar"
 
 function Message() {
 
-  const { user, setUser } = useContext(UserContext)
+  const { user } = useContext(UserContext)
 
   return (
     <>

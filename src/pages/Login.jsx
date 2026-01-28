@@ -18,7 +18,7 @@ function Login() {
   const navigate = useNavigate()
 
   const { user, setUser } = useContext(UserContext)
-  const { theme, setTheme } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   const handleLogin = async (e) => {
     e.preventDefault()

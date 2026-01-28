@@ -19,7 +19,7 @@ import editIconBlack from '../assets/edit-icon-black.svg'
 function Profile() {
 
   const { user, setUser } = useContext(UserContext)
-  const { theme, setTheme } = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext)
 
   //image modal/popup states
   const [showImageModal, setShowImageModal] = useState(false)
@@ -119,7 +119,7 @@ function Profile() {
           <Col className="col-2">
             <Sidebar />
           </Col>
-          <Col className="col-9 d-flex gap-3">
+          <Col className="col-9 d-flex gap-sm-3 gap-lg-5">
             <div className="profile-image-container d-flex flex-column gap-2">
               <Image src={user.profilePic} className="object-fit-cover border-light" width='220px' height='220px' roundedCircle />
               <br />

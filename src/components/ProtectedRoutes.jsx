@@ -20,7 +20,7 @@ function ProtectedRoutes({ isLoading, setIsLoading}) {
               setUser(response.data)
             }
         } catch (err) {
-            logoutFunction(setUser,navigate)
+            logoutFunction(setUser, navigate)
             console.error(err)
         } finally {
             setIsLoading(false)

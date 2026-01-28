@@ -17,8 +17,8 @@ function Signup() {
 
   const navigate = useNavigate()
 
-  const { user, setUser } = useContext(UserContext)
-  const { theme, setTheme } = useContext(ThemeContext)
+  const { user } = useContext(UserContext)
+  const { theme } = useContext(ThemeContext)
 
   const handleSignup = async (e) => {
     e.preventDefault()
