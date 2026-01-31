@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 import Card from 'react-bootstrap/Card'
 import ListGroup from 'react-bootstrap/ListGroup'
 import { Link } from 'react-router-dom'
-import { BounceLoader } from "react-spinners"
+import Spinner from 'react-bootstrap/Spinner'
 
 function LatestUsersCard() {
 
@@ -15,7 +15,6 @@ function LatestUsersCard() {
 
   const [latestUsers, setLatestUsers] = useState([])
   const [isCardLoading, setIsCardLoading] = useState(true)
-  const [followers, setFollowers] = useState([])
   const [following, setFollowing] = useState([])
 
   const retrieveLatestUsers = async () => {
@@ -35,7 +34,6 @@ function LatestUsersCard() {
     try {
       const retrieveFollowersResponse = await axiosInstance.get(`api/follow/${user.id}`)
       if(retrieveFollowersResponse.status === 200) {
-        setFollowers(retrieveFollowersResponse.data.retrievedFollowers)
         setFollowing(retrieveFollowersResponse.data.retrievedFollowing)
       }
     } catch (err) {
@@ -76,7 +74,7 @@ const addFollow = async (e, userId) => {
     }
   }
 
-  if(isCardLoading) return <BounceLoader />
+  if(isCardLoading) return <Spinner animation="grow" variant="secondary" />
 
   return (
     <Card>

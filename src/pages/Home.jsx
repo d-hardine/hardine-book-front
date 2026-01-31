@@ -7,7 +7,7 @@ import Col from "react-bootstrap/Col"
 import Sidebar from "../components/Sidebar"
 import StatusCard from "../components/StatusCard"
 import LatestUsersCard from "../components/LatestUsersCard"
-import { BounceLoader } from "react-spinners"
+import Spinner from 'react-bootstrap/Spinner'
 import BottomNavigationBar from "../components/BottomNavigationBar"
 
 function Home() {
@@ -40,7 +40,7 @@ function Home() {
           <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
-          {isLoading ? (<BounceLoader />) :
+          {isLoading ? (<Spinner animation="grow" variant="secondary" />) :
           (
             <Col>
               {allPosts.map((post) => (

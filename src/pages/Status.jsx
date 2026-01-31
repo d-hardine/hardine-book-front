@@ -11,9 +11,10 @@ import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import { useEffect, useState, useContext } from "react"
 import { formatDistanceToNow, format } from "date-fns"
-import { BounceLoader } from "react-spinners"
+import Spinner from 'react-bootstrap/Spinner'
 import StatusCard from "../components/StatusCard"
 import LatestUsersCard from "../components/LatestUsersCard"
+import BottomNavigationBar from "../components/BottomNavigationBar"
 
 function Status() {
 
@@ -87,7 +88,7 @@ function Status() {
               <StatusCard post={post}/>
             ) :
             (
-              <BounceLoader />
+              <Spinner animation="grow" variant="secondary" />
             )
           }
           <div className="mt-3 mb-3">Comment section</div>
@@ -116,7 +117,7 @@ function Status() {
             </>
           ) :
           (
-            <BounceLoader />
+            <Spinner animation="grow" variant="secondary" />
           )}
         </Col>
         <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
@@ -124,6 +125,7 @@ function Status() {
         </Col>
       </Row>
     </Container>
+    <BottomNavigationBar />
     </>
     )
 }

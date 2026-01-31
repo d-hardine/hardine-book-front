@@ -10,7 +10,7 @@ import UserContext from "../config/UserContext"
 import ThemeContext from "../config/ThemeContext"
 import { useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react"
-import { BounceLoader } from "react-spinners"
+import Spinner from 'react-bootstrap/Spinner'
 import webIconWhite from '../assets/web-icon-white.svg'
 import webIconBlack from '../assets/web-icon-black.svg'
 
@@ -91,7 +91,7 @@ function Account() {
           <Col className="col-2">
             <Sidebar />
           </Col>
-          {isAccountLoading ? (<BounceLoader />) : (
+          {isAccountLoading ? (<Spinner animation="grow" variant="secondary" />) : (
             <Col className="col-9 d-flex gap-sm-3 gap-lg-5">
               <div className="profile-image-container d-flex flex-column gap-2">
                 <Image src={account.profilePic} className="object-fit-cover border-light" width='220px' height='220px' roundedCircle />

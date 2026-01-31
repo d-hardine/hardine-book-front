@@ -12,7 +12,7 @@ import Alert from 'react-bootstrap/Alert'
 import Button from "react-bootstrap/Button"
 import Image from "react-bootstrap/Image"
 import axiosInstance from "../config/axiosInstance"
-import { BounceLoader } from "react-spinners"
+import Spinner from "react-bootstrap/Spinner"
 import editIconWhite from '../assets/edit-icon-white.svg'
 import editIconBlack from '../assets/edit-icon-black.svg'
 
@@ -160,7 +160,9 @@ function Profile() {
             </Modal.Body>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleCloseImageModal}>Close</Button>
-              <Button variant="primary" type="submit" disabled={disableSubmit}>{!loadingSpinner ? 'Apply New Image' : <BounceLoader color="#643434" size={18} aria-label="Loading Spinner" />}</Button>
+              <Button variant="primary" type="submit" disabled={disableSubmit}>
+                {!loadingSpinner ? 'Apply New Image' : <Spinner animation="grow" size="sm" variant="secondary" />}
+              </Button>
             </Modal.Footer>
           </Form>
         </Modal>
