@@ -20,19 +20,19 @@ const Sidebar = () => {
     return(
             <ListGroup variant="flush">
                 <CustomLinkBootStrap to="/home" action>
-                    <Image className="m-1" src={theme === 'dark' ? homeIconWhite : homeIconBlack} width={'25px'} title="home"/>
+                    <Image className="m-1" src={theme === 'dark' ? homeIconWhite : homeIconBlack} width={'20px'} title="home"/>
                     <div className="d-none d-lg-block">Home</div>
                 </CustomLinkBootStrap>
                 <CustomLinkBootStrap to="/profile" action>
-                    <Image className="m-1" src={theme === 'dark' ? profileIconWhite : profileIconBlack} width={'25px'} title="profile"/>
+                    <Image className="m-1" src={theme === 'dark' ? profileIconWhite : profileIconBlack} width={'20px'} title="profile"/>
                     <div className="d-none d-lg-block">Profile</div>
                 </CustomLinkBootStrap>
                 <CustomLinkBootStrap to="/message" action>
-                    <Image className="m-1" src={theme === 'dark' ? emailIconWhite : emailIconBlack} width={'25px'} title="message"/>
+                    <Image className="m-1" src={theme === 'dark' ? emailIconWhite : emailIconBlack} width={'20px'} title="message"/>
                     <div className="d-none d-lg-block">Message</div>
                 </CustomLinkBootStrap>
                 <CustomLinkBootStrap to="/post" action>
-                    <Image className="m-1" src={theme === 'dark' ? postIconWhite : postIconBlack} width={'25px'} title="post"/>
+                    <Image className="m-1" src={theme === 'dark' ? postIconWhite : postIconBlack} width={'20px'} title="post"/>
                     <div className="d-none d-lg-block">Post</div>
                 </CustomLinkBootStrap>
             </ListGroup>

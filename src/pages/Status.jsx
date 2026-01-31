@@ -13,6 +13,7 @@ import { useEffect, useState, useContext } from "react"
 import { formatDistanceToNow, format } from "date-fns"
 import { BounceLoader } from "react-spinners"
 import StatusCard from "../components/StatusCard"
+import LatestUsersCard from "../components/LatestUsersCard"
 
 function Status() {
 
@@ -55,7 +56,7 @@ function Status() {
   useEffect(() => {
     retrieveSinglePost()
     retrieveComments()
-  })
+  }, [])
 
   const handleSubmitComment = async (e) => {
     e.preventDefault()
@@ -77,10 +78,10 @@ function Status() {
     <NavigationBar />
     <Container>
       <Row className="pt-4">
-        <Col className="col-2">
+        <Col className="d-none d-sm-block col-2">
           <Sidebar />
         </Col>
-        <Col className="col-7">
+        <Col>
           {!isStatusLoading ?
             (
               <StatusCard post={post}/>
@@ -115,8 +116,11 @@ function Status() {
             </>
           ) :
           (
-            <div>comment loading...</div>
+            <BounceLoader />
           )}
+        </Col>
+        <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
+            <LatestUsersCard />
         </Col>
       </Row>
     </Container>

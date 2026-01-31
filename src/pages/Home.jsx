@@ -6,6 +6,9 @@ import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Sidebar from "../components/Sidebar"
 import StatusCard from "../components/StatusCard"
+import LatestUsersCard from "../components/LatestUsersCard"
+import { BounceLoader } from "react-spinners"
+import BottomNavigationBar from "../components/BottomNavigationBar"
 
 function Home() {
 
@@ -34,22 +37,23 @@ function Home() {
       <NavigationBar />
       <Container>
         <Row className="pt-4">
-          <Col className="col-2">
+          <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
-          {isLoading ? (<Col className="col-7">Loading</Col>) :
-          ( 
-            <Col className="col-7">
+          {isLoading ? (<BounceLoader />) :
+          (
+            <Col>
               {allPosts.map((post) => (
                 <StatusCard post={post} key={post.id} />
               ))}
             </Col>
           )}
-          <Col className="col-3">
-            Card Stuff
+          <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
+            <LatestUsersCard />
           </Col>
         </Row>
       </Container>
+      <BottomNavigationBar />
     </>
   )
 }

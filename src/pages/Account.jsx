@@ -57,7 +57,7 @@ function Account() {
   useEffect(() => {
     retrieveAccount()
     retrieveFollowers()
-  })
+  }, [])
 
   const addFollow = async () => {
     try {
@@ -114,8 +114,9 @@ function Account() {
                   <a href={account.website} target="_blank" rel="noopener noreferrer">{account.website}</a>
                 </div>
                 )}
-                <div>Followers: {followers.length}</div>
-                <div>Following: {following.length}</div>
+                <div
+                  ><b>{followers.length}</b> <span className="text-muted">Followers</span> <b>{following.length}</b> <span className="text-muted">Following</span>
+                </div>
               </div>
           </Col>
           )}
