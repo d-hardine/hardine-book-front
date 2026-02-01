@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axiosInstance"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import Container from "react-bootstrap/Container"
 import NavigationBar from "../components/NavigationBar"
 import Row from "react-bootstrap/Row"
@@ -9,28 +9,59 @@ import StatusCard from "../components/StatusCard"
 import LatestUsersCard from "../components/LatestUsersCard"
 import Spinner from 'react-bootstrap/Spinner'
 import BottomNavigationBar from "../components/BottomNavigationBar"
+import ThemeContext from "../config/ThemeContext"
+import UserContext from "../config/UserContext"
 
 function Home() {
 
+  const { theme } = useContext(ThemeContext)
+  const { user } = useContext(UserContext)
+
   const [allPosts, setAllPosts] = useState()
+  const [followingPosts, setFollowingPosts] = useState()
   const [isLoading, setIsLoading] = useState(true)
+  const [isLatest, setIsLatest] = useState(true)
+
+  const retrieveAllPosts = async () => {
+    try {
+      const retrieveResponse =  await axiosInstance.get('/api/all-posts')
+      if(retrieveResponse.status === 200) {
+        setAllPosts(retrieveResponse.data.allPosts)
+      }
+    } catch(err) {
+      console.error(err)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const retrieveFollowingPosts = async () => {
+    try {
+      const retrieveResponse =  await axiosInstance.get(`/api/following-posts/`)
+      if(retrieveResponse.status === 200) {
+        console.log(retrieveResponse.data.followingPosts)
+        setFollowingPosts(retrieveResponse.data.followingPosts)
+      }
+    } catch(err) {
+      console.error(err)
+    }
+  }
 
   useEffect(() => {
-    const retrieveAllPosts = async () => {
-      try {
-        const retrieveResponse =  await axiosInstance.get('/api/all-posts')
-        if(retrieveResponse.status === 200) {
-          setAllPosts(retrieveResponse.data.allPosts)
-        }
-      } catch(err) {
-        console.error(err)
-      } finally {
-        setIsLoading(false)
-      }
-    }
 
     retrieveAllPosts()
+    retrieveFollowingPosts()
   }, [])
+
+  const latestSwitch = () => {
+    retrieveAllPosts()
+    setIsLatest(true)
+  }
+
+  const followingSwitch = () => {
+    retrieveFollowingPosts()
+    setIsLatest(false)
+  }
 
   return (
     <>
@@ -43,13 +74,23 @@ function Home() {
           {isLoading ? (<Spinner animation="grow" variant="secondary" />) :
           (
             <Col>
-              <div className="feed-button-container d-flex gap-3 justify-content-center mb-1">
-                <div>Latest</div>
-                <div>Following</div>
+              <div className="feed-button-container d-flex gap-3 justify-content-center mb-2">
+                <div className={isLatest ? ['border-bottom', 'border-5', theme === 'dark' ? 'border-light' : 'border-dark'].join(' ') : ''} onClick={latestSwitch}>
+                  Latest
+                </div>
+                <div className={!isLatest ? ['border-bottom', 'border-5', theme === 'dark' ? 'border-light' : 'border-dark'].join(' ') : ''} onClick={followingSwitch}>
+                  Following
+                </div>
               </div>
-              {allPosts.map((post) => (
-                <StatusCard post={post} key={post.id} />
-              ))}
+              {isLatest ? (
+                allPosts.map((post) => (
+                  <StatusCard post={post} key={post.id} />
+                ))
+              ) : (
+                followingPosts.map((post) => (
+                  <StatusCard post={post} key={post.id} />
+                ))
+              )}
             </Col>
           )}
           <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
