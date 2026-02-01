@@ -9,6 +9,8 @@ import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import axiosInstance from "../config/axiosInstance"
 import { useNavigate } from "react-router-dom"
+import BottomNavigationBar from "../components/BottomNavigationBar"
+import LatestUsersCard from "../components/LatestUsersCard"
 
 function Post() {
 
@@ -30,10 +32,10 @@ function Post() {
       <NavigationBar />
       <Container>
         <Row className="pt-4">
-          <Col className="col-2">
+          <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
-          <Col className="col-9">
+          <Col>
             <Form onSubmit={handlePost}>
               <Form.Group className="mb-3" controlId="createPost">
                 <Form.Control style={{ resize: "none" }} as="textarea" rows={4} placeholder="What's on your mind?" onChange={(e) => setPost(e.target.value)} required />
@@ -41,8 +43,12 @@ function Post() {
               <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Post</Button>
             </Form>
           </Col>
+          <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
+            <LatestUsersCard />
+          </Col>
         </Row>
       </Container>
+      <BottomNavigationBar />
     </>
   )
 }

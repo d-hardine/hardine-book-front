@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container"
 import Row from "react-bootstrap/Row"
 import Col from "react-bootstrap/Col"
 import Sidebar from "../components/Sidebar"
+import BottomNavigationBar from "../components/BottomNavigationBar"
 
 function Message() {
 
@@ -15,7 +16,7 @@ function Message() {
       <NavigationBar />
       <Container>
         <Row className="pt-4">
-          <Col className="col-2">
+          <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
           <Col className="col-9">
@@ -23,6 +24,7 @@ function Message() {
           </Col>
         </Row>
       </Container>
+      <BottomNavigationBar />
     </>
   )
 }
