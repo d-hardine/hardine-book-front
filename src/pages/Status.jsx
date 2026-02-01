@@ -15,6 +15,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import StatusCard from "../components/StatusCard"
 import LatestUsersCard from "../components/LatestUsersCard"
 import BottomNavigationBar from "../components/BottomNavigationBar"
+import CommentCard from "../components/CommentCard"
 
 function Status() {
 
@@ -102,17 +103,7 @@ function Status() {
                 <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Comment</Button>
             </Form>
             {comments.map((comment) => (
-              <div className="d-flex p-3 gap-3 h-25 border" key={comment.id}>
-                  <Image src={comment.author.profilePic} className="object-fit-cover mt-1" width='35px' height='35px' roundedCircle/>
-                  <div className="comment-content">
-                    <Link className={["text-decoration-none", theme === 'dark' ? 'text-light' : 'text-dark'].join(" ")} to={`/account/${comment.author.id}`}>
-                      <div>
-                        <b>{comment.author.name}</b> <span className="text-muted">@{comment.author.username}</span> · <span title={format(comment.createdAt, 'yyyy-MM-dd h:mm a')} className="text-muted">{formatDistanceToNow(comment.createdAt, {addSuffix: true})}</span>
-                      </div>
-                    </Link>
-                    <div>{comment.body}</div>
-                  </div>
-                </div>
+              <CommentCard comment={comment} key={comment.id} />
             ))}
             </>
           ) :

@@ -43,6 +43,10 @@ function Home() {
           {isLoading ? (<Spinner animation="grow" variant="secondary" />) :
           (
             <Col>
+              <div className="feed-button-container d-flex gap-3 justify-content-center mb-1">
+                <div>Latest</div>
+                <div>Following</div>
+              </div>
               {allPosts.map((post) => (
                 <StatusCard post={post} key={post.id} />
               ))}

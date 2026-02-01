@@ -15,6 +15,8 @@ import axiosInstance from "../config/axiosInstance"
 import Spinner from "react-bootstrap/Spinner"
 import editIconWhite from '../assets/edit-icon-white.svg'
 import editIconBlack from '../assets/edit-icon-black.svg'
+import BottomNavigationBar from "../components/BottomNavigationBar"
+import LatestUsersCard from "../components/LatestUsersCard"
 
 function Profile() {
 
@@ -116,12 +118,12 @@ function Profile() {
       <NavigationBar />
       <Container>
         <Row className="pt-4">
-          <Col className="col-2">
+          <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
-          <Col className="col-9 d-flex gap-sm-3 gap-lg-5">
+          <Col className="d-flex gap-3 gap-lg-4">
             <div className="profile-image-container d-flex flex-column gap-2">
-              <Image src={user.profilePic} className="object-fit-cover border-light" width='220px' height='220px' roundedCircle />
+              <Image src={user.profilePic} className="object-fit-cover border-light" width='200px' height='200px' roundedCircle />
               <br />
               <Button variant={theme === 'dark' ? 'light' : 'dark'} onClick={handleShowImageModal}>Change Picture</Button>
             </div>
@@ -140,7 +142,11 @@ function Profile() {
               </div>
             </div>
           </Col>
+          <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
+            <LatestUsersCard />
+          </Col>
         </Row>
+        <BottomNavigationBar />
 
         {/*Modal popup for change Profile Picture */}
         <Modal size="lg" show={showImageModal} onHide={handleCloseImageModal}>

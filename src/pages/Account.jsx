@@ -13,6 +13,8 @@ import { useContext, useEffect, useState } from "react"
 import Spinner from 'react-bootstrap/Spinner'
 import webIconWhite from '../assets/web-icon-white.svg'
 import webIconBlack from '../assets/web-icon-black.svg'
+import BottomNavigationBar from "../components/BottomNavigationBar"
+import LatestUsersCard from "../components/LatestUsersCard"
 
 function Account() {
 
@@ -88,11 +90,11 @@ function Account() {
       <NavigationBar />
       <Container>
         <Row className="pt-4">
-          <Col className="col-2">
+          <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
           {isAccountLoading ? (<Spinner animation="grow" variant="secondary" />) : (
-            <Col className="col-9 d-flex gap-sm-3 gap-lg-5">
+            <Col className="d-flex gap-3 gap-lg-4">
               <div className="profile-image-container d-flex flex-column gap-2">
                 <Image src={account.profilePic} className="object-fit-cover border-light" width='220px' height='220px' roundedCircle />
                 <br />
@@ -120,8 +122,12 @@ function Account() {
               </div>
           </Col>
           )}
+          <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
+            <LatestUsersCard />
+          </Col>
         </Row>
       </Container>
+      <BottomNavigationBar />
     </>
   )
 }
