@@ -3,6 +3,7 @@ import Col from "react-bootstrap/Col"
 import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Image from 'react-bootstrap/Image'
+import Alert from 'react-bootstrap/Alert'
 import axiosInstance from "../config/axiosInstance"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import logo from '../assets/information-svgrepo-com.svg'
@@ -10,10 +11,13 @@ import { useState, useContext } from "react"
 import UserContext from "../config/UserContext"
 import ThemeContext from "../config/ThemeContext"
 import Container from "react-bootstrap/Container"
+import githubLogo from '../assets/github-logo.svg'
+import googleLogo from '../assets/google-logo.svg'
 
 function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [showAlert, setShowAlert] = useState(false)
 
   const navigate = useNavigate()
 
@@ -26,17 +30,43 @@ function Login() {
       username,
       password,
     }
+    try {
+      const loginResponse = await axiosInstance.post('/api/login', loginUser)
+      if (loginResponse.status === 201) {
+        setUser(loginResponse.data)
+        navigate('/home')
+      }
+    } catch (err) {
+      console.error(err)
+      setShowAlert(true)
+    }
+  }
+
+  const handleGuestUserLogin = async () => {
+    const loginUser = {
+      username: 'guest.user',
+      password: '1234qwer',
+    }
     const loginResponse = await axiosInstance.post('/api/login', loginUser)
     if (loginResponse.status === 201)
       setUser(loginResponse.data)
     navigate('/home')
   }
 
+  const handleGithubLogin = async () => {
+    window.open('http://localhost:3000/api/auth/github', '_self')
+  }
+
+  const handleGoogleLogin = async () => {
+    console.log('logging in via google...')
+    window.open('http://localhost:3000/api/auth/google', '_self')
+  }
+
   if (user) { return (<Navigate to="/home" />) }
 
   return (
     <Container>
-      <Row className="align-items-center justify-content-center" style={{ height: '100vh' }}>
+      <Row className="mt-3 align-items-center justify-content-center" style={{ height: '100vh' }}>
         <Col className="d-none d-md-block col-9 text-center">
           <h2><b>Hardine Book</b></h2>
           <h5>Always Connected, Anywhere You Are.</h5>
@@ -57,7 +87,18 @@ function Login() {
             </Form.Group>
             <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Login</Button>
           </Form>
-          <div className="text-muted">Don't have an account? <Link to="/signup" className={theme === 'dark' ? 'link-light' : 'link-dark'}><b>Sign up</b></Link></div>
+          {showAlert && <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>Username/password invalid</Alert>}
+          <div className="mb-3 text-muted">Don't have an account? <Link to="/signup" className={theme === 'dark' ? 'link-light' : 'link-dark'}><b>Sign up</b></Link></div>
+          <div className="mb-2">Or login with</div>
+          <div className="button-container d-flex gap-2">
+            <Button variant="secondary" onClick={handleGithubLogin}>
+              <Image src={githubLogo} width={25} title="GitHub" />
+            </Button>
+            <Button variant="success" onClick={handleGoogleLogin}>
+              <Image src={googleLogo} width={25} title="Google" />
+            </Button>
+            <Button variant={theme === 'dark' ? 'light' : 'dark'} onClick={handleGuestUserLogin}>Guest User</Button>
+          </div>
         </Col>
       </Row>
     </Container>

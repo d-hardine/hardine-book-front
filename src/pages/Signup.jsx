@@ -20,7 +20,7 @@ function Signup() {
 
   const navigate = useNavigate()
 
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   const { theme } = useContext(ThemeContext)
 
   const handleSignup = async (e) => {
@@ -33,9 +33,13 @@ function Signup() {
     }
     try {
       const signupResponse = await axiosInstance.post('/api/signup', newUser)
-      console.log(signupResponse.status)
-      if(signupResponse.status === 201)
-        navigate('/')
+      if(signupResponse.status === 201) { //immediate login after successful signup
+        const loginUser = { username, password }
+        const loginResponse = await axiosInstance.post('/api/login', loginUser)
+        if (loginResponse.status === 201)
+          setUser(loginResponse.data)
+          navigate('/home')
+      }
     } catch (err) { //if error happened, e.g invalid form input
       console.error(err)
       setErrors(err.response.data.errors)

@@ -41,7 +41,7 @@ function Post() {
   // Function to handle file selection
   const handleChange = (e) => {
     const files = e.target.files
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'] //Client-side validation: Check MIME type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] //Client-side validation: Check MIME type
 
     if (files && files.length > 0) {
       if (!allowedTypes.includes(files[0].type)) { //if chosen file isn't an image

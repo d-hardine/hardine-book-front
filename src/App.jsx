@@ -71,21 +71,21 @@ function App() {
   return (
     <>
       <ThemeContext.Provider value={{theme, setTheme}}>
-      <UserContext.Provider value={{user, setUser}}>
-          <Routes>
-            <Route path='/' element={<Login />}/>
-            <Route path='/signup' element={<Signup />}/>
-            <Route element={<ProtectedRoutes isLoading={isLoading} setIsLoading={setIsLoading} />}>
-              <Route path='/home' element={<Home />}/>
-              <Route path='/profile' element={<Profile />}/>
-              <Route path='/message' element={<Message />}/>
-              <Route path='/post' element={<Post />}/>
-              <Route path='/status/:statusId' element={<Status />}/>
-              <Route path='/account/:accountId'element={<Account />}/>
-            </Route>
-            <Route path='*' element={<Navigate to="/" />} />
-          </Routes>
-      </UserContext.Provider>
+        <UserContext.Provider value={{user, setUser}}>
+            <Routes>
+              <Route path='/' element={<Login />}/>
+              <Route path='/signup' element={<Signup />}/>
+              <Route element={<ProtectedRoutes isLoading={isLoading} setIsLoading={setIsLoading} />}>
+                <Route path='/home' element={<Home />}/>
+                <Route path='/profile' element={<Profile />}/>
+                <Route path='/message' element={<Message />}/>
+                <Route path='/post' element={<Post />}/>
+                <Route path='/status/:statusId' element={<Status />}/>
+                <Route path='/account/:accountId'element={<Account />}/>
+              </Route>
+              <Route path='*' element={<Navigate to="/" />} />
+            </Routes>
+        </UserContext.Provider>
       </ThemeContext.Provider>
     </>
   )

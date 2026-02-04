@@ -62,7 +62,7 @@ function Profile() {
 
   const handleImageChange = (e) => {
     const selectedImage = e.target.files[0]
-    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'] //Client-side validation: Check MIME type
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'] //Client-side validation: Check MIME type
     if (!allowedTypes.includes(selectedImage.type)) { //if chosen file isn't an image
       setShowAlert(true)
       setAlertMessage('Only image files are allowed!')
