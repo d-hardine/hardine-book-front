@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner'
 import axiosInstance from "../config/axiosInstance"
 import logoutFunction from "../config/logoutFunction"
 import UserContext from "../config/UserContext"
-import socket from '../socket.js'
+import socket from '../config/socket.js'
 
 function ProtectedRoutes({ isLoading, setIsLoading }) {
 

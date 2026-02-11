@@ -14,7 +14,7 @@ import { useParams } from "react-router-dom"
 import { useState, useEffect, useContext, useRef } from "react"
 import UserContext from "../config/UserContext"
 import axiosInstance from "../config/axiosInstance"
-import socket from "../socket"
+import socket from "../config/socket"
 
 function PrivateChat() {
 

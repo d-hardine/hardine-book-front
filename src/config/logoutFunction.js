@@ -1,5 +1,5 @@
 import axiosInstance from "./axiosInstance"
-import socket from '../socket.js'
+import socket from './socket.js'
 
 const logoutFunction = async (setUser, navigate) => {
     try {
