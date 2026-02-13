@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form"
 import Button from "react-bootstrap/Button"
 import Image from 'react-bootstrap/Image'
 import Alert from 'react-bootstrap/Alert'
+import Spinner from "react-bootstrap/Spinner"
 import axiosInstance from "../config/axiosInstance"
 import { Link, Navigate, useNavigate } from "react-router-dom"
 import logo from '../assets/information-svgrepo-com.svg'
@@ -18,6 +19,7 @@ function Login() {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [showAlert, setShowAlert] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
 
@@ -27,6 +29,7 @@ function Login() {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000'
 
   const handleLogin = async (e) => {
+    setIsLoading(true)
     e.preventDefault()
     const loginUser = {
       username,
@@ -41,26 +44,36 @@ function Login() {
     } catch (err) {
       console.error(err)
       setShowAlert(true)
+      setIsLoading(false)
     }
   }
 
   const handleGuestUserLogin = async () => {
+    setIsLoading(true)
     const loginUser = {
       username: 'guest.user',
       password: '1234qwer',
     }
-    const loginResponse = await axiosInstance.post('/api/login', loginUser)
-    if (loginResponse.status === 201)
-      setUser(loginResponse.data)
-    navigate('/home')
+    try {
+      const loginResponse = await axiosInstance.post('/api/login', loginUser)
+      if (loginResponse.status === 201) {
+        setUser(loginResponse.data)
+        navigate('/home')
+      }
+    } catch (err) {
+      console.error(err)
+      setShowAlert(true)
+      setIsLoading(false)
+    }
   }
 
   const handleGithubLogin = async () => {
+    setIsLoading(true)
     window.open(`${API_BASE_URL}/api/auth/github`, '_self')
   }
 
   const handleGoogleLogin = async () => {
-    console.log('logging in via google...')
+    setIsLoading(true)
     window.open(`${API_BASE_URL}/api/auth/google`, '_self')
   }
 
@@ -87,19 +100,23 @@ function Login() {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
             </Form.Group>
-            <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Login</Button>
+            <Button variant={theme === 'dark' ? 'light' : 'dark'} disabled={isLoading} type="submit">
+              {!isLoading ? "Login" : <Spinner animation="grow" size="sm" variant="secondary" />}
+            </Button>
           </Form>
           {showAlert && <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>Username/password invalid</Alert>}
           <div className="mb-3 text-muted">Don't have an account? <Link to="/signup" className={theme === 'dark' ? 'link-light' : 'link-dark'}><b>Sign up</b></Link></div>
           <div className="mb-2">Or login with</div>
           <div className="button-container d-flex gap-2">
-            <Button variant="secondary" onClick={handleGithubLogin}>
-              <Image src={githubLogo} width={25} title="GitHub" />
+            <Button variant="secondary" disabled={isLoading} onClick={handleGithubLogin}>
+              {!isLoading ? <Image src={githubLogo} width={25} title="GitHub" /> : <Spinner animation="grow" size="sm" variant="secondary" />}
             </Button>
-            <Button variant="success" onClick={handleGoogleLogin}>
-              <Image src={googleLogo} width={25} title="Google" />
+            <Button variant="success" disabled={isLoading} onClick={handleGoogleLogin}>
+              {!isLoading ? <Image src={googleLogo} width={25} title="Google" /> : <Spinner animation="grow" size="sm" variant="secondary" />}
             </Button>
-            <Button variant={theme === 'dark' ? 'light' : 'dark'} onClick={handleGuestUserLogin}>Guest User</Button>
+            <Button variant={theme === 'dark' ? 'light' : 'dark'} disabled={isLoading} onClick={handleGuestUserLogin}>
+              {!isLoading ? "Guest User" : <Spinner animation="grow" size="sm" variant="secondary" />}
+            </Button>
           </div>
         </Col>
       </Row>
