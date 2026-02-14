@@ -11,7 +11,7 @@ import Sidebar from "../components/Sidebar"
 import NavigationBar from "../components/NavigationBar"
 import BottomNavigationBar from "../components/BottomNavigationBar"
 import { useParams } from "react-router-dom"
-import { useState, useEffect, useContext, useRef } from "react"
+import { useState, useEffect, useContext, useOptimistic, useRef, startTransition } from "react"
 import UserContext from "../config/UserContext"
 import axiosInstance from "../config/axiosInstance"
 import socket from "../config/socket"
@@ -25,18 +25,21 @@ function PrivateChat() {
   const { user } = useContext(UserContext)
 
   const messagesEndRef = useRef(null)
+  const messagesContainerRef = useRef(null)
 
   const [members, setMembers] = useState()
   const [groupedMessages, setGroupedMessages] = useState()
   const [isLoading, setIsLoading] = useState(true)
   const [newMessage, setNewMessage] = useState('')
-  const [isSendingMessage, setIsSendingMessage] = useState(false)
+
+  const [optimisticGroupedMessages, setOptimisticGroupedMessages] = useOptimistic(groupedMessages)
 
   const retrieveMessages = async () => {
     try {
       const retrieveMessagesResponse = await axiosInstance.get(`/api/messages/${params.conversationId}`)
       if (retrieveMessagesResponse.status === 200) {
         const retrievedMessages = retrieveMessagesResponse.data.retrievedMessages
+        messagesContainerRef.current = retrievedMessages
         setGroupedMessages(groupMessagesByDate(retrievedMessages))
       }
     } catch (err) {
@@ -90,16 +93,30 @@ function PrivateChat() {
   useEffect(() => scrollToBottom, [groupedMessages])
 
   const handleNewMessage = (e) => {
-    e.preventDefault()
-    if(newMessage !== "") {
-      setNewMessage("")
-      e.target.reset()
-      socket.emit('send_message', {
-        conversationId: params.conversationId,
-        senderId: user.id,
-        content: newMessage
-      })
-    }
+    startTransition(() => {
+      e.preventDefault()
+      if(newMessage !== "") {
+
+        const optimisticNewMessage = {
+          id: Math.random(),
+          conversationId: params.conversationId,
+          senderId: user.id,
+          content: newMessage,
+          createdAt: Date.now()
+        }
+        messagesContainerRef.current.push(optimisticNewMessage)
+        console.log(messagesContainerRef.current)
+        setOptimisticGroupedMessages(groupMessagesByDate(messagesContainerRef.current))
+
+        setNewMessage("")
+        e.target.reset()
+        socket.emit('send_message', {
+          conversationId: params.conversationId,
+          senderId: user.id,
+          content: newMessage
+        })
+      }
+    })
   }
 
   return (
@@ -119,10 +136,10 @@ function PrivateChat() {
                     {members[0].user.name}
                   </h3>
                   <div className="messages-container mb-3" style={{ height: '70vh', overflowY: 'auto' }}>
-                    {Object.keys(groupedMessages).map((date) => (
+                    {Object.keys(optimisticGroupedMessages).map((date) => (
                       <div key={date}>
                         <DateDivider dateString={date}/>
-                        {groupedMessages[date].map((message) => (
+                        {optimisticGroupedMessages[date].map((message) => (
                           <div key={message.id}>
                             <div className={`d-flex ${message.senderId !== user.id ? 'justify-content-start' : 'justify-content-end'}`}>
                               <Card className={`chat-bubble ${message.senderId !== user.id ? 'bg-light text-dark' : 'bg-success text-white'}`}>
@@ -158,6 +175,7 @@ function PrivateChat() {
             ) : (<Spinner animation="grow" variant="secondary" />)}
           </Col>
         </Row>
+        <Button onClick={() => console.log(messagesContainerRef.current)}>console log</Button>
       </Container>
       <BottomNavigationBar />
     </>
