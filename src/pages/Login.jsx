@@ -100,23 +100,20 @@ function Login() {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} required />
             </Form.Group>
-            <Button variant={theme === 'dark' ? 'light' : 'dark'} disabled={isLoading} type="submit">
-              {!isLoading ? "Login" : <Spinner animation="grow" size="sm" variant="secondary" />}
-            </Button>
+            <Button variant={theme === 'dark' ? 'light' : 'dark'} disabled={isLoading} type="submit">Login</Button>
+            {isLoading && (<Spinner className="mx-3" animation="grow" variant="secondary" size="sm" />)}
           </Form>
           {showAlert && <Alert variant="danger" onClose={() => setShowAlert(false)} dismissible>Username/password invalid</Alert>}
           <div className="mb-3 text-muted">Don't have an account? <Link to="/signup" className={theme === 'dark' ? 'link-light' : 'link-dark'}><b>Sign up</b></Link></div>
           <div className="mb-2">Or login with</div>
           <div className="button-container d-flex gap-2">
             <Button variant="secondary" disabled={isLoading} onClick={handleGithubLogin}>
-              {!isLoading ? <Image src={githubLogo} width={25} title="GitHub" /> : <Spinner animation="grow" size="sm" variant="secondary" />}
+              <Image src={githubLogo} width={25} title="GitHub" />
             </Button>
             <Button variant="success" disabled={isLoading} onClick={handleGoogleLogin}>
-              {!isLoading ? <Image src={googleLogo} width={25} title="Google" /> : <Spinner animation="grow" size="sm" variant="secondary" />}
+              <Image src={googleLogo} width={25} title="Google" />
             </Button>
-            <Button variant={theme === 'dark' ? 'light' : 'dark'} disabled={isLoading} onClick={handleGuestUserLogin}>
-              {!isLoading ? "Guest User" : <Spinner animation="grow" size="sm" variant="secondary" />}
-            </Button>
+            <Button variant={theme === 'dark' ? 'light' : 'dark'} disabled={isLoading} onClick={handleGuestUserLogin}>Guest User</Button>
           </div>
         </Col>
       </Row>
