@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useEffect, useState, useOptimistic, startTransition } from "react"
 import UserContext from "../config/UserContext"
 import ThemeContext from "../config/ThemeContext"
 import NavigationBar from "../components/NavigationBar"
@@ -22,6 +22,8 @@ function Profile() {
 
   const { user, setUser } = useContext(UserContext)
   const { theme } = useContext(ThemeContext)
+
+  const [optimisticUser, setoptimisticUser] = useOptimistic(user)
 
   //followers states
   const [followers, setFollowers] = useState([])
@@ -101,25 +103,34 @@ function Profile() {
     }
   }
 
-  const handleSubmitUpdateBio = async (e) => {
+  const handleSubmitUpdateBio = (e) => {
     e.preventDefault()
-    const updateBioResponse = await axiosInstance.put('/api/update-bio', { newBio })
-    setUser(updateBioResponse.data.updatedUser)
     setShowEditBioModal(false)
+    startTransition(async () => {
+      setoptimisticUser({...user, bio: newBio})
+      const updateBioResponse = await axiosInstance.put('/api/update-bio', { newBio })
+      setUser(updateBioResponse.data.updatedUser)
+    })
   }
 
   const handleSubmitUpdateWebsite = async (e) => {
     e.preventDefault()
-    const updateWebsiteResponse = await axiosInstance.put('/api/update-website', { newWebsite })
-    setUser(updateWebsiteResponse.data.updatedUser)
     setShowEditWebsiteModal(false)
+    startTransition(async () => {
+      setoptimisticUser({...user, website: newWebsite})
+      const updateWebsiteResponse = await axiosInstance.put('/api/update-website', { newWebsite })
+      setUser(updateWebsiteResponse.data.updatedUser)
+    })
   }
 
   const handleSubmitUpdateDisplayName = async (e) => {
     e.preventDefault()
-    const updateWebsiteResponse = await axiosInstance.put('/api/update-display-name', { newDisplayName })
-    setUser(updateWebsiteResponse.data.updatedUser)
     setShowEditDisplayNameModal(false)
+    startTransition(async () => {
+      setoptimisticUser({...user, name: newDisplayName})
+      const updateWebsiteResponse = await axiosInstance.put('/api/update-display-name', { newDisplayName })
+      setUser(updateWebsiteResponse.data.updatedUser)
+    })
   }
 
   //open and close profile picture modal/popup
@@ -161,26 +172,26 @@ function Profile() {
           </Col>
           <Col className="profile-container mb-3 d-sm-flex gap-3 gap-lg-4">
             <div className="profile-image-container d-flex flex-column gap-2">
-              <Image src={user.profilePic} className="m-auto mb-1 object-fit-cover border-light" width='200px' height='200px' roundedCircle />
+              <Image src={optimisticUser.profilePic} className="m-auto mb-1 object-fit-cover border-light" width='200px' height='200px' roundedCircle />
               <br />
               <Button style={{ minWidth: 200 }} className="mb-3 m-auto" variant={theme === 'dark' ? 'light' : 'dark'} onClick={handleShowImageModal}>Change Picture</Button>
             </div>
             <div className="profile-info-container">
               <div className="d-flex align-items-center">
-                <span className="fs-2">{user.name}</span>
+                <span className="fs-2">{optimisticUser.name}</span>
                 <span>
                   <Image className="mx-2" role="button" src={theme === 'dark' ? editIconWhite : editIconBlack} width={20} onClick={handleShowEditDisplayedNameModal} />
                   <i className="text-muted">rename</i>
                 </span>
               </div>
-              <div className="text-muted mb-3">@{user.username}</div>
+              <div className="text-muted mb-3">@{optimisticUser.username}</div>
               <div className="mb-3">
-                {user.bio}
+                {optimisticUser.bio}
                 <Image className="mx-2" role="button" src={theme === 'dark' ? editIconWhite : editIconBlack} width={20} onClick={handleShowEditBioModal} />
                 <i className="text-muted">bio</i>
               </div>
               <div className="mb-3">
-                <a href={user.website} target="_blank" rel="noopener noreferrer">{user.website}</a>
+                <a href={user.website} target="_blank" rel="noopener noreferrer">{optimisticUser.website}</a>
                 <Image className="mx-2" role="button" src={theme === 'dark' ? editIconWhite : editIconBlack} width={20} onClick={handleShowEditWebsiteModal} />
                 <i className="text-muted">website</i>
               </div>
