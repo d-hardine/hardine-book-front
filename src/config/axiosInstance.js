@@ -8,4 +8,9 @@ const axiosInstance = axios.create({
     withCredentials: true,
 })
 
+axiosInstance.interceptors.request.use((config) => {
+  config.withCredentials = true;
+  return config;
+});
+
 export default axiosInstance
