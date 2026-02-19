@@ -36,7 +36,7 @@ function Login() {
       password,
     }
     try {
-      const loginResponse = await axiosInstance.post('/api/login', loginUser)
+      const loginResponse = await axiosInstance.post('/login', loginUser)
       if (loginResponse.status === 201) {
         setUser(loginResponse.data)
         navigate('/home')
@@ -55,7 +55,7 @@ function Login() {
       password: '1234qwer',
     }
     try {
-      const loginResponse = await axiosInstance.post('/api/login', loginUser)
+      const loginResponse = await axiosInstance.post('/login', loginUser)
       if (loginResponse.status === 201) {
         setUser(loginResponse.data)
         navigate('/home')

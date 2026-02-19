@@ -29,7 +29,7 @@ function Status() {
 
   const retrieveSinglePost = async () => {
     try {
-      const retrieveResponse = await axiosInstance.get(`/api/single-post/${params.statusId}`)
+      const retrieveResponse = await axiosInstance.get(`/single-post/${params.statusId}`)
       if (retrieveResponse.status === 200) {
         setPost(retrieveResponse.data.singlePost)
       }
@@ -42,7 +42,7 @@ function Status() {
 
   const retrieveComments = async () => {
     try {
-      const retrieveComments = await axiosInstance.get(`/api/comments/${params.statusId}`)
+      const retrieveComments = await axiosInstance.get(`/comments/${params.statusId}`)
       if (retrieveComments.status === 200) {
         setComments(retrieveComments.data.comments)
       }
@@ -61,7 +61,7 @@ function Status() {
   const handleSubmitComment = async (e) => {
     e.preventDefault()
     try {
-      const commentResponse = await axiosInstance.post('/api/create-comment', { newComment, postId: params.statusId })
+      const commentResponse = await axiosInstance.post('/create-comment', { newComment, postId: params.statusId })
       if (commentResponse.status === 200) {
         retrieveComments()
         retrieveSinglePost()

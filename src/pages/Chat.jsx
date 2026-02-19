@@ -20,7 +20,7 @@ function Chat() {
 
   const retrieveConversations = async () => {
     try {
-      const retrieveConversationsResponse = await axiosInstance.get(`/api/conversations/${user.id}`)
+      const retrieveConversationsResponse = await axiosInstance.get(`/conversations/${user.id}`)
       if (retrieveConversationsResponse.status === 200) {
         setConversations(retrieveConversationsResponse.data.retrievedConversations)
       }

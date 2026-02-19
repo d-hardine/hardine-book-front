@@ -32,10 +32,10 @@ function Signup() {
       confirmPassword
     }
     try {
-      const signupResponse = await axiosInstance.post('/api/signup', newUser)
+      const signupResponse = await axiosInstance.post('/signup', newUser)
       if(signupResponse.status === 201) { //immediate login after successful signup
         const loginUser = { username, password }
-        const loginResponse = await axiosInstance.post('/api/login', loginUser)
+        const loginResponse = await axiosInstance.post('/login', loginUser)
         if (loginResponse.status === 201)
           setUser(loginResponse.data)
           navigate('/home')

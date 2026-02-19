@@ -19,7 +19,7 @@ function LatestUsersCard() {
 
   const retrieveLatestUsers = async () => {
     try {
-      const retrieveLatestUsersResponse = await axiosInstance.get('/api/latest-users')
+      const retrieveLatestUsersResponse = await axiosInstance.get('/latest-users')
       if (retrieveLatestUsersResponse.status === 200) {
         setLatestUsers(retrieveLatestUsersResponse.data.latestUsers)
       }
@@ -32,7 +32,7 @@ function LatestUsersCard() {
 
   const retrieveFollowers = async () => {
     try {
-      const retrieveFollowersResponse = await axiosInstance.get(`api/follow/${user.id}`)
+      const retrieveFollowersResponse = await axiosInstance.get(`/follow/${user.id}`)
       if (retrieveFollowersResponse.status === 200) {
         setFollowing(retrieveFollowersResponse.data.retrievedFollowing)
       }
@@ -50,7 +50,7 @@ function LatestUsersCard() {
     e.preventDefault()
     e.stopPropagation()
     try {
-      const addFollowResponse = await axiosInstance.post(`/api/follow/${userId}`)
+      const addFollowResponse = await axiosInstance.post(`/follow/${userId}`)
       if (addFollowResponse.status === 200) {
         console.log(addFollowResponse.data)
         retrieveFollowers()
@@ -64,7 +64,7 @@ function LatestUsersCard() {
     e.preventDefault()
     e.stopPropagation()
     try {
-      const deleteFollowResponse = await axiosInstance.delete(`/api/follow/${userId}`)
+      const deleteFollowResponse = await axiosInstance.delete(`/follow/${userId}`)
       if (deleteFollowResponse.status === 200) {
         console.log(deleteFollowResponse.data)
         retrieveFollowers()

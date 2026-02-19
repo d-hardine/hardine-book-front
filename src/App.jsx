@@ -26,7 +26,7 @@ function App() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axiosInstance.get('/api/auth')
+        const response = await axiosInstance.get('/auth')
         if(response.status === 201) {
           setUser(response.data)
         }

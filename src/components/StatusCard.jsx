@@ -25,7 +25,7 @@ function StatusCard({ post }) {
 
   const retrieveLike = async () => {
     try {
-      const retrieveLikeResponse = await axiosInstance.get(`/api/like/${post.id}`)
+      const retrieveLikeResponse = await axiosInstance.get(`/like/${post.id}`)
       if (retrieveLikeResponse.status === 200) {
         setTotalLikes(retrieveLikeResponse.data.retrievedLike.length)
         const findIsLiked = retrieveLikeResponse.data.retrievedLike.some(liked => liked.authorId === user.id) //find if user clicked like to the status/post
@@ -47,9 +47,9 @@ function StatusCard({ post }) {
     try {
       let likeResponse
       if (!isLiked) {
-        likeResponse = await axiosInstance.post(`/api/like/${post.id}`)
+        likeResponse = await axiosInstance.post(`/like/${post.id}`)
       } else {
-        likeResponse = await axiosInstance.delete(`/api/like/${post.id}`)
+        likeResponse = await axiosInstance.delete(`/like/${post.id}`)
       }
       if (likeResponse.status === 200) {
         retrieveLike()

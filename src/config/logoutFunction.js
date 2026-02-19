@@ -3,7 +3,7 @@ import socket from './socket.js'
 
 const logoutFunction = async (setUser, navigate) => {
     try {
-        const logoutResponse = await axiosInstance.post('/api/logout')
+        const logoutResponse = await axiosInstance.post('/logout')
         if(logoutResponse.status === 200) {
             setUser(null)
             socket.disconnect()

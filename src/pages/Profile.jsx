@@ -52,7 +52,7 @@ function Profile() {
 
   const retrieveFollowers = async () => {
     try {
-      const retrieveFollowersResponse = await axiosInstance.get(`api/follow/${user.id}`)
+      const retrieveFollowersResponse = await axiosInstance.get(`/follow/${user.id}`)
       if (retrieveFollowersResponse.status === 200) {
         setFollowers(retrieveFollowersResponse.data.retrievedFollowers)
         setFollowing(retrieveFollowersResponse.data.retrievedFollowing)
@@ -95,7 +95,7 @@ function Profile() {
       console.log('uploading...') //needs to show inside modal
       const formData = new FormData()
       formData.append("image", newImage)
-      const uploadImageResponse = await axiosInstance.put('/api/upload-image', formData)
+      const uploadImageResponse = await axiosInstance.put('/upload-image', formData)
       setUser(uploadImageResponse.data.updatedUser)
       setLoadingSpinner(false)
       setDisableSubmit(false)
@@ -108,7 +108,7 @@ function Profile() {
     setShowEditBioModal(false)
     startTransition(async () => {
       setoptimisticUser({...user, bio: newBio})
-      const updateBioResponse = await axiosInstance.put('/api/update-bio', { newBio })
+      const updateBioResponse = await axiosInstance.put('/update-bio', { newBio })
       setUser(updateBioResponse.data.updatedUser)
     })
   }
@@ -118,7 +118,7 @@ function Profile() {
     setShowEditWebsiteModal(false)
     startTransition(async () => {
       setoptimisticUser({...user, website: newWebsite})
-      const updateWebsiteResponse = await axiosInstance.put('/api/update-website', { newWebsite })
+      const updateWebsiteResponse = await axiosInstance.put('/update-website', { newWebsite })
       setUser(updateWebsiteResponse.data.updatedUser)
     })
   }
@@ -128,7 +128,7 @@ function Profile() {
     setShowEditDisplayNameModal(false)
     startTransition(async () => {
       setoptimisticUser({...user, name: newDisplayName})
-      const updateWebsiteResponse = await axiosInstance.put('/api/update-display-name', { newDisplayName })
+      const updateWebsiteResponse = await axiosInstance.put('/update-display-name', { newDisplayName })
       setUser(updateWebsiteResponse.data.updatedUser)
     })
   }

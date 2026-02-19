@@ -22,7 +22,7 @@ function Home() {
 
   const retrieveAllPosts = async () => {
     try {
-      const retrieveResponse = await axiosInstance.get('/api/all-posts')
+      const retrieveResponse = await axiosInstance.get('/all-posts')
       if (retrieveResponse.status === 200) {
         setAllPosts(retrieveResponse.data.allPosts)
       }
@@ -35,7 +35,7 @@ function Home() {
 
   const retrieveFollowingPosts = async () => {
     try {
-      const retrieveResponse = await axiosInstance.get(`/api/following-posts/`)
+      const retrieveResponse = await axiosInstance.get(`/following-posts/`)
       if (retrieveResponse.status === 200) {
         setFollowingPosts(retrieveResponse.data.followingPosts)
       }

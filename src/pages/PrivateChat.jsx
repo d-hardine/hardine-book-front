@@ -37,7 +37,7 @@ function PrivateChat() {
 
   const retrieveMessages = async () => {
     try {
-      const retrieveMessagesResponse = await axiosInstance.get(`/api/messages/${params.conversationId}`)
+      const retrieveMessagesResponse = await axiosInstance.get(`/messages/${params.conversationId}`)
       if (retrieveMessagesResponse.status === 200) {
         const retrievedMessages = retrieveMessagesResponse.data.retrievedMessages
         messageHistoryRef.current = retrievedMessages
@@ -52,7 +52,7 @@ function PrivateChat() {
 
   const retrieveConversationMembers = async () => {
     try {
-      const conversationMembersResponse = await axiosInstance.get(`/api/conversation-members/${params.conversationId}`)
+      const conversationMembersResponse = await axiosInstance.get(`/conversation-members/${params.conversationId}`)
       if (conversationMembersResponse.status === 200) {
         setMembers(conversationMembersResponse.data.retrievedConversationMembers)
       }

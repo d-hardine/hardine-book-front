@@ -64,7 +64,7 @@ function Post() {
     const formData = new FormData()
     formData.append("image", newImage)
     formData.append("newPost", post)
-    const postResponse = await axiosInstance.post('/api/create-post', formData)
+    const postResponse = await axiosInstance.post('/create-post', formData)
     if (postResponse.status === 201)
       navigate('/home')
   }

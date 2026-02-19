@@ -35,7 +35,7 @@ function Account() {
 
   const retrieveAccount = async () => {
     try {
-      const retrieveAccountResponse = await axiosInstance.get(`/api/account/${params.accountId}`)
+      const retrieveAccountResponse = await axiosInstance.get(`/account/${params.accountId}`)
       if (retrieveAccountResponse.status === 200) {
         setAccount(retrieveAccountResponse.data.retrievedAccount)
       }
@@ -48,7 +48,7 @@ function Account() {
 
   const retrieveFollowers = async () => {
     try {
-      const retrieveFollowersResponse = await axiosInstance.get(`api/follow/${params.accountId}`)
+      const retrieveFollowersResponse = await axiosInstance.get(`/follow/${params.accountId}`)
       if (retrieveFollowersResponse.status === 200) {
         setFollowers(retrieveFollowersResponse.data.retrievedFollowers)
         setFollowing(retrieveFollowersResponse.data.retrievedFollowing)
@@ -62,7 +62,7 @@ function Account() {
 
   const retrieveAccountPosts = async () => {
     try {
-      const retrieveResponse = await axiosInstance.get(`/api/account-posts/${params.accountId}`)
+      const retrieveResponse = await axiosInstance.get(`/account-posts/${params.accountId}`)
       if (retrieveResponse.status === 200) {
         setAccountPosts(retrieveResponse.data.accountPosts)
       }
@@ -79,7 +79,7 @@ function Account() {
 
   const addFollow = async () => {
     try {
-      const addFollowResponse = await axiosInstance.post(`/api/follow/${params.accountId}`)
+      const addFollowResponse = await axiosInstance.post(`/follow/${params.accountId}`)
       if (addFollowResponse.status === 200) {
         retrieveFollowers()
       }
@@ -90,7 +90,7 @@ function Account() {
 
   const deleteFollow = async () => {
     try {
-      const deleteFollowResponse = await axiosInstance.delete(`/api/follow/${params.accountId}`)
+      const deleteFollowResponse = await axiosInstance.delete(`/follow/${params.accountId}`)
       if (deleteFollowResponse.status === 200) {
         retrieveFollowers()
       }
@@ -101,7 +101,7 @@ function Account() {
 
   const handleChat = async () => {
     try {
-      const chatResponse = await axiosInstance.post('/api/chat', {accountId: params.accountId})
+      const chatResponse = await axiosInstance.post('/chat', {accountId: params.accountId})
       if (chatResponse.status === 200) {
         console.log(chatResponse.data.conversationId.id)
         navigate(`/chat/${chatResponse.data.conversationId.id}`)
