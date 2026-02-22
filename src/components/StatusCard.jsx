@@ -60,7 +60,7 @@ function StatusCard({ post }) {
           likeResponse = await axiosInstance.delete(`/like/${post.id}`)
         }
         if (likeResponse.status === 200) {
-          retrieveLike()
+          await retrieveLike()
         }
       } catch (err) {
         console.error(err)
