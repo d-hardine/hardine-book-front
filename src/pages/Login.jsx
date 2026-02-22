@@ -58,7 +58,7 @@ function Login() {
       const loginResponse = await axiosInstance.post('/login', loginUser)
       if (loginResponse.status === 201) {
         setUser(loginResponse.data)
-        navigate('/home')
+        navigate('/home', { replace: true })
       }
     } catch (err) {
       console.error(err)
@@ -77,7 +77,7 @@ function Login() {
     window.open(`${API_BASE_URL}/auth/google`, '_self')
   }
 
-  if (user) { return (<Navigate to="/home" />) }
+  if (localStorage.getItem('isLoggedIn')) { return (<Navigate to="/home" replace={true} />) }
 
   return (
     <Container>

@@ -19,6 +19,7 @@ function ProtectedRoutes({ isLoading, setIsLoading }) {
                 const response = await axiosInstance.get('/auth')
                 if (response.status === 201) {
                     setUser(response.data)
+                    localStorage.setItem('isLoggedIn', 'true')
                     socket.connect()
                 }
             } catch (err) {

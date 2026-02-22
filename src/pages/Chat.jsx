@@ -43,7 +43,7 @@ function Chat() {
           <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
-          <Col>
+          <Col className={isLoading ? 'd-flex justify-content-center align-items-center' : ''}>
             {!isLoading ? (
               <>
                 <h1 className="mb-3">Chats</h1>

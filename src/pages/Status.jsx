@@ -24,6 +24,7 @@ function Status() {
   const [isCommentLoading, setIsCommentLoading] = useState(true)
   const [comments, setComments] = useState(null)
   const [newComment, setNewComment] = useState('')
+  const [isSendingNewComment, setIsSendingNewComment] = useState(false)
 
   const params = useParams()
 
@@ -60,6 +61,7 @@ function Status() {
 
   const handleSubmitComment = async (e) => {
     e.preventDefault()
+    setIsSendingNewComment(true)
     try {
       const commentResponse = await axiosInstance.post('/create-comment', { newComment, postId: params.statusId })
       if (commentResponse.status === 200) {
@@ -70,6 +72,8 @@ function Status() {
       }
     } catch (err) {
       console.error(err)
+    } finally {
+      setIsSendingNewComment(false)
     }
   }
 
@@ -98,7 +102,8 @@ function Status() {
                     <Form.Group className="mb-3" controlId="createComment">
                       <Form.Control style={{ resize: "none" }} as="textarea" rows={2} placeholder="Post your comment" onChange={(e) => setNewComment(e.target.value)} required />
                     </Form.Group>
-                    <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit">Comment</Button>
+                    <Button variant={theme === 'dark' ? 'light' : 'dark'} type="submit" disabled={isSendingNewComment}>Comment</Button>
+                    {isSendingNewComment && (<Spinner className="mx-3" animation="grow" variant="secondary" size="sm" />)}
                   </Form>
                   {comments.map((comment) => (
                     <CommentCard comment={comment} key={comment.id} />

@@ -28,6 +28,7 @@ function App() {
       try {
         const response = await axiosInstance.get('/auth')
         if(response.status === 201) {
+          localStorage.setItem('isLoggedIn', 'true')
           setUser(response.data)
         }
       } catch (err) {

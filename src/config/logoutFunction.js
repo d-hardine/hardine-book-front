@@ -7,6 +7,7 @@ const logoutFunction = async (setUser, navigate) => {
         if(logoutResponse.status === 200) {
             setUser(null)
             socket.disconnect()
+            localStorage.removeItem('isLoggedIn')
             navigate('/')
         }
     } catch (err) {

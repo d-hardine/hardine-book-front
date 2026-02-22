@@ -68,7 +68,7 @@ function Home() {
           <Col className="d-none d-sm-block col-2">
             <Sidebar />
           </Col>
-          {isLoading ? (<Spinner animation="grow" variant="secondary" />) : (
+          {isLoading ? (<Col className="d-flex justify-content-center align-items-center"><Spinner animation="grow" variant="secondary" /></Col>) : (
             <Col>
               <div className="feed-button-container d-flex gap-3 justify-content-center mb-2">
                 <div className={isLatest ? ['border-bottom', 'border-5', theme === 'dark' ? 'border-light' : 'border-dark'].join(' ') : ''} onClick={latestSwitch}>
@@ -91,7 +91,7 @@ function Home() {
               )}
             </Col>
           )}
-          <Col className="d-none d-lg-block col-lg-4 col-xxl-3">
+          <Col className={`d-none d-lg-block col-lg-4 col-xxl-3 ${isLoading && 'd-flex justify-content-center align-items-center'}`}>
             <LatestUsersCard />
           </Col>
         </Row>
