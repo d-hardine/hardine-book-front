@@ -24,6 +24,7 @@ function StatusCard({ post }) {
   const [isLikeLoading, setIsLikeLoading] = useState(true)
 
   const [optimisticTotalLikes, setOptimisticTotalLikes] = useOptimistic(totalLikes)
+  const [optimisticIsLiked, setOptimisticIsLiked] = useOptimistic(isLiked)
 
   const retrieveLike = async () => {
     try {
@@ -51,9 +52,11 @@ function StatusCard({ post }) {
         let likeResponse
         if (!isLiked) {
           setOptimisticTotalLikes(prev => prev + 1)
+          setOptimisticIsLiked(true)
           likeResponse = await axiosInstance.post(`/like/${post.id}`)
         } else {
           setOptimisticTotalLikes(prev => prev - 1)
+          setOptimisticIsLiked(false)
           likeResponse = await axiosInstance.delete(`/like/${post.id}`)
         }
         if (likeResponse.status === 200) {
@@ -95,7 +98,7 @@ function StatusCard({ post }) {
                   {post.comments.length}
                 </div>
                 <div className="like-icon-container d-flex gap-1 align-items-center">
-                  <Image role='button' onClick={handleLike} src={isLiked ? likeIconRed : (theme === 'dark' ? likeIconWhite : likeIconBlack)} width={18} />
+                  <Image role='button' onClick={handleLike} src={optimisticIsLiked ? likeIconRed : (theme === 'dark' ? likeIconWhite : likeIconBlack)} width={18} />
                   {optimisticTotalLikes}
                 </div>
               </div>
