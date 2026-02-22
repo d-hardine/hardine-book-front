@@ -7,7 +7,7 @@ import likeIconWhite from '../assets/like-icon-white.svg'
 import likeIconBlack from '../assets/like-icon-black.svg'
 import likeIconRed from '../assets/like-icon-red.svg'
 import { useNavigate, Link } from "react-router-dom"
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useState, useOptimistic, startTransition } from 'react'
 import UserContext from '../config/UserContext'
 import ThemeContext from "../config/ThemeContext"
 import axiosInstance from '../config/axiosInstance'
@@ -22,6 +22,8 @@ function StatusCard({ post }) {
   const [totalLikes, setTotalLikes] = useState(0)
   const [isLiked, setIsLiked] = useState(false)
   const [isLikeLoading, setIsLikeLoading] = useState(true)
+
+  const [optimisticTotalLikes, setOptimisticTotalLikes] = useOptimistic(totalLikes)
 
   const retrieveLike = async () => {
     try {
@@ -42,21 +44,25 @@ function StatusCard({ post }) {
     retrieveLike()
   })
 
-  const handleLike = async (e) => {
+  const handleLike = (e) => {
     e.stopPropagation() // Prevents the click from reaching the parent
-    try {
-      let likeResponse
-      if (!isLiked) {
-        likeResponse = await axiosInstance.post(`/like/${post.id}`)
-      } else {
-        likeResponse = await axiosInstance.delete(`/like/${post.id}`)
+    startTransition(async () => {
+      try {
+        let likeResponse
+        if (!isLiked) {
+          setOptimisticTotalLikes(prev => prev + 1)
+          likeResponse = await axiosInstance.post(`/like/${post.id}`)
+        } else {
+          setOptimisticTotalLikes(prev => prev - 1)
+          likeResponse = await axiosInstance.delete(`/like/${post.id}`)
+        }
+        if (likeResponse.status === 200) {
+          retrieveLike()
+        }
+      } catch (err) {
+        console.error(err)
       }
-      if (likeResponse.status === 200) {
-        retrieveLike()
-      }
-    } catch (err) {
-      console.error(err)
-    }
+    })
   }
 
   const stopPropagation = (e) => {
@@ -90,7 +96,7 @@ function StatusCard({ post }) {
                 </div>
                 <div className="like-icon-container d-flex gap-1 align-items-center">
                   <Image role='button' onClick={handleLike} src={isLiked ? likeIconRed : (theme === 'dark' ? likeIconWhite : likeIconBlack)} width={18} />
-                  {totalLikes}
+                  {optimisticTotalLikes}
                 </div>
               </div>
             </div>
