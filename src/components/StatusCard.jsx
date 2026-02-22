@@ -45,22 +45,35 @@ function StatusCard({ post }) {
     retrieveLike()
   })
 
-  const handleLike = (e) => {
+  const handleAddLike = (e) => {
     e.stopPropagation() // Prevents the click from reaching the parent
     startTransition(async () => {
       try {
-        let likeResponse
         if (!isLiked) {
           setOptimisticTotalLikes(prev => prev + 1)
           setOptimisticIsLiked(true)
-          likeResponse = await axiosInstance.post(`/like/${post.id}`)
-        } else {
+          const likeResponse = await axiosInstance.post(`/like/${post.id}`)
+          if (likeResponse.status === 200) {
+            await retrieveLike()
+          }
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    })
+  }
+
+  const handleDeleteLike = (e) => {
+    e.stopPropagation() // Prevents the click from reaching the parent
+    startTransition(async () => {
+      try {
+        if (isLiked) {
           setOptimisticTotalLikes(prev => prev - 1)
           setOptimisticIsLiked(false)
-          likeResponse = await axiosInstance.delete(`/like/${post.id}`)
-        }
-        if (likeResponse.status === 200) {
-          await retrieveLike()
+          const likeResponse = await axiosInstance.delete(`/like/${post.id}`)
+          if (likeResponse.status === 200) {
+            await retrieveLike()
+          }
         }
       } catch (err) {
         console.error(err)
@@ -98,7 +111,7 @@ function StatusCard({ post }) {
                   {post.comments.length}
                 </div>
                 <div className="like-icon-container d-flex gap-1 align-items-center">
-                  <Image role='button' onClick={handleLike} src={optimisticIsLiked ? likeIconRed : (theme === 'dark' ? likeIconWhite : likeIconBlack)} width={18} />
+                  <Image role='button' onClick={optimisticIsLiked ? handleDeleteLike : handleAddLike} src={optimisticIsLiked ? likeIconRed : (theme === 'dark' ? likeIconWhite : likeIconBlack)} width={18} />
                   {optimisticTotalLikes}
                 </div>
               </div>
