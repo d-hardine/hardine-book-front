@@ -3,7 +3,7 @@
 The frontend repository of the Hardine Book app
 
 - Demo: [Live](https://hardine-book.netlify.app)
-- Backend for [Hardine Book](https://github.com/d-hardine/hardine-book-front)
+- Backend for [Hardine Book](https://github.com/d-hardine/social-media-project-back)
 
 ## Features
 - Secure authentication with OAuth via Google or Github, or with local strategy.
